@@ -9,14 +9,11 @@
 #include <bitset>
 #include <sstream>
 
+#include "parser.h"
 
 class computer;
-class instructionSet;
-
-namespace menu{
-  
-}
-
+namespace instructionSet{}
+namespace menu{}
 namespace parser{
   std::vector<std::pair <std::string, int>> label;
   std::vector<std::pair <std::string, int>> define;
@@ -73,29 +70,6 @@ namespace parser{
   std::string transImmediate(std::string& inputStr); //
 }
 
-class computer{
-private:
-  std::array <uint8_t, 8> regs;
-  std::array <uint8_t, 256> RAM;
-  std::array <uint8_t, 256> vidRAM;
-
-public:
-  computer();
-  ~computer();
-
-  std::string instructionReg;
-  unsigned short int PC;
-  
-  uint8_t gReg (uint8_t pos); // remember that there's a zero read register //
-  uint8_t gram (uint8_t pos); //
-  uint8_t gVram (uint8_t pos); //
-  void sReg (uint8_t val, uint8_t pos); //
-  void sram (uint8_t val, uint8_t pos); //
-  void sVram (uint8_t val, uint8_t pos); //
-
-  void decodeInstruction();
-};
-//parser
 void parser::deleteComments(std::string& inputStr){
   if(inputStr.find(';') == std::string::npos){
     return;
@@ -168,19 +142,19 @@ std::pair<std::string, int> parser::getDefine(std::string& inputStr, std::vector
 }
 std::string parser::command(std::string& inputStr){
   inputStr.erase(0, 1);
-  if(inputStr == "break"){
-    //break
-  }
-  else if(inputStr == "list"){
-    //list
-  }
-  else if(inputStr == "broadcast"){
-    //blank
-  }
-  else{
-    std::cerr << "this command isn't recognized\n";
-  }
-  return "";
+  // if(inputStr == "break"){;
+  //   //break
+  // }
+  // else if(inputStr == "list"){;
+  //   //list
+  // }
+  // else if(inputStr == "broadcast"){;
+  //   //blank
+  // }
+  // else{
+  //   std::cerr << "this command isn't recognized\n";
+  // }
+  // return "";
 }
 template <typename T> T parser::transMnemonic(std::string& inputStr, const std::unordered_map<std::string, int>& mnemToNum){
   return itos(mnemToNum.find(inputStr.substr(0, 3))->second);
@@ -210,38 +184,4 @@ std::string parser::transImmediate(std::string& inputStr){
     std::cerr << "immediate out of range, program won't handle this number\n"; 
   }
   return temp;
-}
-
-//computer
-uint8_t computer::gReg(uint8_t pos){
-  if (pos == 0){return 0;}
-  else if (pos < 1 || pos > 7){return 255;}
-  return regs.at(pos);
-}
-uint8_t computer::gram (uint8_t pos){
-  return RAM.at(pos);
-}
-uint8_t computer::gVram (uint8_t pos){
-  return vidRAM.at(pos);
-}
-void computer::sReg (uint8_t val, uint8_t pos){
-  if(pos == 0 || pos < 1 || pos > 7){
-    return;
-  }
-  regs.at(pos) = val;
-  return;
-}
-void computer::sram (uint8_t val, uint8_t pos){
-  if(pos < 0 || pos > 255){
-    return;
-  }
-  regs.at(pos) = val;
-  return;
-}
-void computer::sVram (uint8_t val, uint8_t pos){
-  if(pos < 0 || pos > 255){
-    return;
-  }
-  regs.at(pos) = val;
-  return;
 }
