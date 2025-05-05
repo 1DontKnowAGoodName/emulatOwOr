@@ -71,6 +71,7 @@ void parser::deleteComments(std::string& inputStr){
 void parser::deleteSpaces(std::string& inputStr){
   inputStr.erase(std::remove(inputStr.begin(), inputStr.end(), ' '), inputStr.end());
 }
+
 void parser::pushLabel(std::string& inputStr, std::vector<std::pair <std::string, int>>& label, computer comp){
   inputStr.erase(0, 1);
   std::string temp;
@@ -132,6 +133,29 @@ std::pair<std::string, int> parser::getDefine(std::string& inputStr, std::vector
   }
   return {"error", -1};
 }
+
+std::string parser::parse(std::string& inputStr){
+  std::string outputStr;
+  while(!inputStr.empty()){
+    char temp = inputStr.at(0);
+    if (temp == 'r'){ //registers
+      outputStr += transRegister(inputStr);
+      inputStr.erase(0,2);
+    }
+    
+    if (temp == '.'){ //labels
+
+    }
+
+    if (isdigit(temp)){ //immediates
+
+    }
+
+    if (!isdigit(temp)){ //defines
+
+    }
+  }
+}
 std::string parser::command(std::string& inputStr){
   inputStr.erase(0, 1);
   // if(inputStr == "break"){;
@@ -156,10 +180,7 @@ std::string parser::transRegister(std::string& inputStr){
     std::cerr << inputStr.at(1) << " is not a real register\n";
     return "err";
   }
-  std::string temp;
-  temp.push_back(inputStr.at(1));
-  inputStr.erase(0, 2);
-  return temp;
+  return {inputStr.at(1)};
 }
 std::string parser::transImmediate(std::string& inputStr){
   std::string temp;
