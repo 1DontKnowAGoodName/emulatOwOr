@@ -8,7 +8,7 @@
 #include <algorithm>
 #include <bitset>
 #include <sstream>
-#include <fstream>
+
 
 class computer;
 class instructionSet;
@@ -72,48 +72,6 @@ namespace parser{
   std::string transRegister(std::string& inputStr); //
   std::string transImmediate(std::string& inputStr); //
 }
-
-namespace instructionSet{
-    // all the functions that should be able to get called and probably numbered
-  
-    // function that returns parameters<string>
-
-  template <typename T> const static std::unordered_map<int, T> numToFunk{
-    {0,},
-    {1,},
-    {2,},
-    {3,},
-    {4,},
-    {5,},
-    {6,},
-    {7,},
-    {8,},
-    {9,},
-    {10,},
-    {11,},
-    {12,},
-    {13,},
-    {14,},
-    {15,},
-    {16,},
-    {17,},
-    {18,},
-    {19,},
-    {20,},
-    {21,},
-    {22,},
-    {23,},
-    {24,},
-    {25,},
-    {26,},
-    {27,},
-    {28,},
-    {29,},
-    {30,},
-    {31,}, // mayhaps we make this just a big switch statement
-  };
-  void NOP(std::string& parameter); //
-};
 
 class computer{
 private:
@@ -208,8 +166,6 @@ std::pair<std::string, int> parser::getDefine(std::string& inputStr, std::vector
   }
   return {"error", -1};
 }
-std::string parser::parse(std::string& inputStr){
-}
 std::string parser::command(std::string& inputStr){
   inputStr.erase(0, 1);
   if(inputStr == "break"){
@@ -246,6 +202,10 @@ std::string parser::transImmediate(std::string& inputStr){
     temp.push_back(inputStr.at(i));
     if ((i + 1) == inputStr.length()){ break; }
   }
+  while(temp.length() < 3){
+    temp.insert(0, "0");
+  }
+  return temp;
   if (stoi(temp) < 0 || stoi(temp) > 255){
     std::cerr << "immediate out of range, program won't handle this number\n"; 
   }

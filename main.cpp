@@ -17,3 +17,7 @@
  -execute
   >don't close GUI when done
 */
+
+int main(){
+
+}
