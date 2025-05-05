@@ -10,14 +10,16 @@
  -read input from file,
 
  -parser
-  > pushback defines and labels
   > for commands: /break, /list
     -> if break, then open a console for listing and stepping and editing variables || put it in the raylib GUI
 
  -execute
   >don't close GUI when done
 */
+#include "computer.h"
+#include "parser.h"
+#include "instructionSet.h"
 
 int main(){
-
+  
 }

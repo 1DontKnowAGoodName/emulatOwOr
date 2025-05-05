@@ -13,9 +13,6 @@
 #include <sstream>
 
 class computer;
-namespace instructionSet{}
-namespace parser{}
-namespace menu{}
 
 namespace parser{
   std::vector<std::pair <std::string, int>> label;

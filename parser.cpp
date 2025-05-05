@@ -1,19 +1,11 @@
-#include <vector>
-#include <unordered_map>
-#include <iostream>
-#include <string>
-#include <cstdint>
-#include <fstream>
-#include <array>
-#include <algorithm>
-#include <bitset>
-#include <sstream>
-
 #include "parser.h"
+#include "computer.h"
+#include "instructionSet.h"
 
 class computer;
 namespace instructionSet{}
 namespace menu{}
+
 namespace parser{
   std::vector<std::pair <std::string, int>> label;
   std::vector<std::pair <std::string, int>> define;

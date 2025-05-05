@@ -1,15 +1,6 @@
-#include <vector>
-#include <unordered_map>
-#include <iostream>
-#include <string>
-#include <cstdint>
-#include <fstream>
-#include <array>
-#include <algorithm>
-#include <bitset>
-#include <sstream>
 #include "computer.h"
-
+#include "parser.h"
+#include "instructionSet.h"
 
 uint8_t computer::gReg(uint8_t pos){
   if (pos == 0){return 0;}
@@ -37,3 +28,9 @@ void computer::sram (uint8_t val, uint8_t pos){
   return;
 }
 void computer::sVram (uint8_t val, uint8_t pos){
+  if(pos < 0 || pos > 255){
+    return;
+  }
+  regs.at(pos) = val;
+  return;
+}
