@@ -21,5 +21,5 @@
 #include "instructionSet.h"
 
 int main(){
-  
+  computer Computer();
 }

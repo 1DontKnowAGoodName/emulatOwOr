@@ -2,6 +2,8 @@
 #include "parser.h"
 #include "instructionSet.h"
 
+computer::computer() : PC(0) {}
+
 uint8_t computer::gReg(uint8_t pos){
   if (pos == 0){return 0;}
   else if (pos < 1 || pos > 7){return 255;}

@@ -48,14 +48,16 @@ namespace parser{
   void deleteSpaces(std::string& inputStr);
   void deleteComments(std::string& inputStr);
 
-  void pushLabel(std::string& inputStr, std::vector<std::pair <std::string, int>>& label, computer comp); //
+  void pushLabel(std::string& inputStr, std::vector<std::pair <std::string, int>>& label, unsigned short int l); //
   void pushDefine(std::string& inputStr, std::vector<std::pair <std::string, int>>& define); //
   bool isLabel(std::string inputStr, std::vector<std::pair <std::string, int>>& define); //
   bool isDefine(std::string inputStr, std::vector<std::pair <std::string, int>>& define); //
   std::pair<std::string, int> getLabel(std::string& inputStr, std::vector<std::pair<std::string, int>>& label); //
   std::pair<std::string, int> getDefine(std::string& inputStr, std::vector<std::pair<std::string, int>>& define); //
 
-  std::string parse(std::string& inputStr); //CHECK CONDITIONS BEFOREHAND!!! THERE IS NO CHECKING IN THE FUNCTIONS ITSELF
+  void preparse(std::string& inputStr, std::vector<std::pair<std::string, int>>& label, std::vector<std::pair<std::string, int>>& define, unsigned short int l); // for label and define
+  std::string parse(std::string& inputStr); 
+
   std::string command(std::string& inputStr); //
   template <typename T> T transMnemonic(std::string& inputStr, const std::unordered_map<std::string, int>& mnemToNum); // only 3 letter mnem
   std::string transRegister(std::string& inputStr); //
@@ -72,8 +74,7 @@ void parser::deleteSpaces(std::string& inputStr){
   inputStr.erase(std::remove(inputStr.begin(), inputStr.end(), ' '), inputStr.end());
 }
 
-void parser::pushLabel(std::string& inputStr, std::vector<std::pair <std::string, int>>& label, computer comp){
-  inputStr.erase(0, 1);
+void parser::pushLabel(std::string& inputStr, std::vector<std::pair <std::string, int>>& label, unsigned short int l){
   std::string temp;
   for(char ch : inputStr){
     if (ch == ':'){ break;}
@@ -81,7 +82,7 @@ void parser::pushLabel(std::string& inputStr, std::vector<std::pair <std::string
     temp.push_back(ch);
   }
   inputStr.erase(0, temp.length() + 1);
-  label.push_back({temp, comp.PC});
+  label.push_back({temp, l});
   return;
 }
 void parser::pushDefine(std::string& inputStr, std::vector<std::pair <std::string, int>>& define){
@@ -98,7 +99,6 @@ void parser::pushDefine(std::string& inputStr, std::vector<std::pair <std::strin
   define.push_back({temp, stoi(inputStr)});
 }
 bool parser::isLabel(std::string inputStr, std::vector<std::pair<std::string, int>>& label){
-  inputStr.erase(0, 1);
   for(std::pair<std::string, int> pair : label){
     if(inputStr.find(pair.first) == 0 && inputStr.at(pair.first.length()) == '_'){
       return true;
@@ -115,7 +115,6 @@ bool parser::isDefine(std::string inputStr, std::vector<std::pair<std::string, i
   return false;
 }
 std::pair<std::string, int> parser::getLabel(std::string& inputStr, std::vector<std::pair<std::string, int>>& label){
-  inputStr.erase(0, 1);
   for (std::pair<std::string, int> pair : label){
     if(inputStr.find(pair.first) == 0 && inputStr.at(pair.first.length()) == '_'){
       inputStr.erase(0, pair.first.length() + 1);
@@ -134,6 +133,22 @@ std::pair<std::string, int> parser::getDefine(std::string& inputStr, std::vector
   return {"error", -1};
 }
 
+void parser::preparse(std::string& inputStr, std::vector<std::pair<std::string, int>>& label, std::vector<std::pair<std::string, int>>& define, unsigned short int l){
+  if(inputStr.at(0) == '.' && isLabel(inputStr, label)){
+    std::cerr << "you declared an already declared label\n";
+  }
+  else if(inputStr.at(0) == '.' && !isLabel(inputStr, label)){
+    pushLabel(inputStr, label, l);
+  }
+  else if(inputStr.at(0) == '#'){
+    if(isDefine(inputStr, define)){
+      std::cerr << "you defined an already used define\n";
+      return;
+    }
+    pushDefine(inputStr, define);
+  }
+  return;
+}
 std::string parser::parse(std::string& inputStr){
   std::string outputStr;
   while(!inputStr.empty()){
@@ -143,19 +158,28 @@ std::string parser::parse(std::string& inputStr){
       inputStr.erase(0,2);
     }
     
-    if (temp == '.'){ //labels
-
+    else if(temp == '.' && isLabel(inputStr, label)){ //labels
+      std::pair<std::string, int> pair = getLabel(inputStr, label);
+      outputStr += pair.second;
+      inputStr.erase(0, pair.first.length());
     }
 
-    if (isdigit(temp)){ //immediates
-
+    else if (isdigit(temp)){ //immediates
+      outputStr += transImmediate(inputStr);
+      while(isdigit(inputStr.at(0))){ //doesn't check for multiple immediates because that
+        inputStr.erase(0, 1);         //because that wouldn't be possible, opcode + 2 imm > 16 bits
+      }
     }
 
-    if (!isdigit(temp)){ //defines
-
+    else if (!isdigit(temp)){ //defines
+      std::pair<std::string, int> pair = getDefine(inputStr, define);
+      outputStr += pair.second;
+      inputStr.erase(0, pair.first.length());
     }
   }
+  return outputStr;
 }
+
 std::string parser::command(std::string& inputStr){
   inputStr.erase(0, 1);
   // if(inputStr == "break"){;

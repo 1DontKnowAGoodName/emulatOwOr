@@ -20,7 +20,6 @@ class computer{
   
   public:
     computer();
-    ~computer();
   
     std::string instructionReg;
     unsigned short int PC;
