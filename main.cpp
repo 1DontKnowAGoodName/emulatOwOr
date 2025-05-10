@@ -16,10 +16,28 @@
  -execute
   >don't close GUI when done
 */
+#include <vector>
+#include <unordered_map>
+#include <iostream>
+#include <string>
+#include <cstdint>
+#include <fstream>
+#include <array>
+#include <algorithm>
+#include <bitset>
+#include <sstream>
+
 #include "computer.h"
 #include "parser.h"
 #include "instructionSet.h"
 
 int main(){
-  computer Computer();
+  // computer Computer();
+  std::vector<std::pair<std::string, int>> pair;
+  std::string str {"NOP r1; 124; comment"};
+
+  parser::deleteComments(str);
+  std::cout << str << '\n';
+
+  return 0;
 }

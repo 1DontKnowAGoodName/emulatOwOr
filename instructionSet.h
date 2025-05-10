@@ -18,7 +18,7 @@ namespace instructionSet {
   // function that returns parameters<string>
   int returnInt(std::string& inputStr, char ch);
   void NOP(std::string& parameter);
-  template <typename T> const static std::unordered_map<int, T> numToFunk;
+  // template <typename T> const static std::unordered_map<int, T> numToFunk;
 }
 
 #endif

@@ -15,8 +15,8 @@
 class computer;
 
 namespace parser{
-  std::vector<std::pair <std::string, int>> label;
-  std::vector<std::pair <std::string, int>> define;
+  extern std::vector<std::pair <std::string, int>> label;
+  extern std::vector<std::pair <std::string, int>> define;
 
   const static std::unordered_map<std::string, uint8_t> mnemToNum{
     {"NOP", 0},

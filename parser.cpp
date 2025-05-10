@@ -7,44 +7,6 @@ namespace instructionSet{}
 namespace menu{}
 
 namespace parser{
-  std::vector<std::pair <std::string, int>> label;
-  std::vector<std::pair <std::string, int>> define;
-
-  const static std::unordered_map<std::string, uint8_t> mnemToNum{
-    {"NOP", 0},
-    {"LDI", 1},
-    {"STO", 2},
-    {"GET", 3},
-    {"MOV", 4},
-    {"NDY", 0},
-    {"NDY", 0},
-    {"NDY", 0},
-    {"NDY", 0},
-    {"NDY", 0},
-    {"JIT", 10},
-    {"ECT", 11},
-    {"GCT", 12},
-    {"PTV", 13},
-    {"HLT", 14},
-    {"PSS", 15},
-    {"ADD", 16},
-    {"SUB", 17},
-    {"AND", 18},
-    {"AND", 19},
-    {"ORE", 20},
-    {"XOR", 21},
-    {"NVA", 22},
-    {"NVB", 23},
-    {"RBS", 24},
-    {"LBS", 25},
-    {"COM", 26},
-    {"NDY", 0},
-    {"MLT", 28},
-    {"ODD", 29},
-    {"INC", 30},
-    {"DEC", 31},
-  };
-
   void deleteSpaces(std::string& inputStr);
   void deleteComments(std::string& inputStr);
 
@@ -56,7 +18,7 @@ namespace parser{
   std::pair<std::string, int> getDefine(std::string& inputStr, std::vector<std::pair<std::string, int>>& define); //
 
   void preparse(std::string& inputStr, std::vector<std::pair<std::string, int>>& label, std::vector<std::pair<std::string, int>>& define, unsigned short int l); // for label and define
-  std::string parse(std::string& inputStr); 
+  std::string parse(std::string& inputStr, std::vector<std::pair<std::string, int>> define, std::vector<std::pair<std::string, int>> label); 
 
   std::string command(std::string& inputStr); //
   template <typename T> T transMnemonic(std::string& inputStr, const std::unordered_map<std::string, int>& mnemToNum); // only 3 letter mnem
@@ -124,7 +86,7 @@ std::pair<std::string, int> parser::getLabel(std::string& inputStr, std::vector<
   return {"error", -1};
 }
 std::pair<std::string, int> parser::getDefine(std::string& inputStr, std::vector<std::pair<std::string, int>>& define){
-  for (std::pair<std::string, int> pair : label){
+  for (std::pair<std::string, int> pair : define){
     if(inputStr.find(pair.first) == 0 && inputStr.at(pair.first.length()) == '_'){
       inputStr.erase(0, pair.first.length() + 1);
       return pair;
@@ -149,7 +111,7 @@ void parser::preparse(std::string& inputStr, std::vector<std::pair<std::string, 
   }
   return;
 }
-std::string parser::parse(std::string& inputStr){
+std::string parser::parse(std::string& inputStr, std::vector<std::pair<std::string, int>> define, std::vector<std::pair<std::string, int>> label){
   std::string outputStr;
   while(!inputStr.empty()){
     char temp = inputStr.at(0);
@@ -163,6 +125,10 @@ std::string parser::parse(std::string& inputStr){
       outputStr += pair.second;
       inputStr.erase(0, pair.first.length());
     }
+    else if (temp == '\\'){
+      command(inputStr);
+    }
+    
 
     else if (isdigit(temp)){ //immediates
       outputStr += transImmediate(inputStr);
@@ -181,23 +147,22 @@ std::string parser::parse(std::string& inputStr){
 }
 
 std::string parser::command(std::string& inputStr){
-  inputStr.erase(0, 1);
-  // if(inputStr == "break"){;
-  //   //break
-  // }
-  // else if(inputStr == "list"){;
-  //   //list
-  // }
-  // else if(inputStr == "broadcast"){;
-  //   //blank
-  // }
-  // else{
-  //   std::cerr << "this command isn't recognized\n";
-  // }
-  // return "";
+  if(inputStr.find("/break") == 0){;
+    //break
+  }
+  else if(inputStr.find("/list") == 0){;
+    //list
+  }
+  else if(inputStr.find("broadcast")){;
+    //blank
+  }
+  else{
+    std::cerr << "this command isn't recognized\n";
+  }
+  return "";
 }
 template <typename T> T parser::transMnemonic(std::string& inputStr, const std::unordered_map<std::string, int>& mnemToNum){
-  return itos(mnemToNum.find(inputStr.substr(0, 3))->second);
+  return std::to_string(mnemToNum.find(inputStr.substr(0, 3))->second);
 }
 std::string parser::transRegister(std::string& inputStr){
   if (inputStr.at(1) == '8' || inputStr.at(1) == '9'){
