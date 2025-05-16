@@ -117,28 +117,21 @@ std::string parser::parse(std::string& inputStr, std::vector<std::pair<std::stri
       outputStr += transRegister(inputStr);
       inputStr.erase(0,2);
     }
-    
     else if(temp == '.' && isLabel(inputStr, label)){ //labels
       std::pair<std::string, int> pair = getLabel(inputStr, label);
-      outputStr += pair.second;
-      inputStr.erase(0, pair.first.length());
+      outputStr += std::to_string(pair.second);
+      inputStr.erase(0, pair.first.length()+1);
     }
-    else if (temp == '\\'){
-      command(inputStr);
-      std::cerr << "this function is not finished yet, this is  a reminder for me\n";
-    }
-    
-    else if (isdigit(temp)){ //immediates
+    else if (isdigit(temp) && !inputStr.empty()){ //immediates
       outputStr += transImmediate(inputStr);
-      while(isdigit(inputStr.at(0))){ //doesn't check for multiple immediates because that
-        inputStr.erase(0, 1);         //because that wouldn't be possible, opcode + 2 imm > 16 bits
+      while(!inputStr.empty() && isdigit(inputStr.at(0))){ //doesn't check for multiple immediates because that
+        inputStr.erase(0, 1);                              //because that wouldn't be possible, opcode + 2 imm > 16 bits
       }
     }
-
-    else if (!isdigit(temp)){ //defines
+    else if (!isdigit(temp) && !inputStr.empty()){ //defines
       std::pair<std::string, int> pair = getDefine(inputStr, define);
-      outputStr += pair.second;
-      inputStr.erase(0, pair.first.length());
+      outputStr += std::to_string(pair.second);
+      inputStr.erase(0, pair.first.length()+1);
     }
   }
   return outputStr;
