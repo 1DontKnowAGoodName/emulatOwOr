@@ -7,23 +7,23 @@ namespace instructionSet{}
 namespace menu{}
 
 namespace parser{
-  void deleteSpaces(std::string& inputStr);
-  void deleteComments(std::string& inputStr);
+  void deleteSpaces(std::string& inputStr); // 
+  void deleteComments(std::string& inputStr); //
 
-  void pushLabel(std::string& inputStr, std::vector<std::pair <std::string, int>>& label, unsigned short int l); //
-  void pushDefine(std::string& inputStr, std::vector<std::pair <std::string, int>>& define); //
-  bool isLabel(std::string inputStr, std::vector<std::pair <std::string, int>>& define); //
-  bool isDefine(std::string inputStr, std::vector<std::pair <std::string, int>>& define); //
-  std::pair<std::string, int> getLabel(std::string& inputStr, std::vector<std::pair<std::string, int>>& label); //
-  std::pair<std::string, int> getDefine(std::string& inputStr, std::vector<std::pair<std::string, int>>& define); //
+  void pushLabel(std::string& inputStr, std::vector<std::pair <std::string, int>>& label, unsigned short int l);//
+  void pushDefine(std::string& inputStr, std::vector<std::pair <std::string, int>>& define);//
+  bool isLabel(std::string inputStr, std::vector<std::pair <std::string, int>>& define);//
+  bool isDefine(std::string inputStr, std::vector<std::pair <std::string, int>>& define);//
+  std::pair<std::string, int> getLabel(std::string& inputStr, std::vector<std::pair<std::string, int>>& label);//
+  std::pair<std::string, int> getDefine(std::string& inputStr, std::vector<std::pair<std::string, int>>& define);//
 
-  void preparse(std::string& inputStr, std::vector<std::pair<std::string, int>>& label, std::vector<std::pair<std::string, int>>& define, unsigned short int l); // for label and define
-  std::string parse(std::string& inputStr, std::vector<std::pair<std::string, int>> define, std::vector<std::pair<std::string, int>> label); 
+  void preparse(std::string& inputStr, std::vector<std::pair<std::string, int>>& label, std::vector<std::pair<std::string, int>>& define, unsigned short int l);
+  std::string parse(std::string& inputStr, std::vector<std::pair<std::string, int>> define, std::vector<std::pair<std::string, int>> label);
 
-  std::string command(std::string& inputStr); //
-  template <typename T> T transMnemonic(std::string& inputStr, const std::unordered_map<std::string, int>& mnemToNum); // only 3 letter mnem
-  std::string transRegister(std::string& inputStr); //
-  std::string transImmediate(std::string& inputStr); //
+  std::string command(std::string& inputStr);//
+  template <typename T> T transMnemonic(std::string& inputStr, const std::unordered_map<std::string, int>& mnemToNum);//
+  std::string transRegister(std::string& inputStr);//
+  std::string transImmediate(std::string& inputStr);//
 }
 
 void parser::deleteComments(std::string& inputStr){
@@ -79,7 +79,6 @@ bool parser::isDefine(std::string inputStr, std::vector<std::pair<std::string, i
 std::pair<std::string, int> parser::getLabel(std::string& inputStr, std::vector<std::pair<std::string, int>>& label){
   for (std::pair<std::string, int> pair : label){
     if(inputStr.find(pair.first) == 0 && inputStr.at(pair.first.length()) == '_'){
-      inputStr.erase(0, pair.first.length() + 1);
       return pair;
     }
   }
@@ -88,7 +87,6 @@ std::pair<std::string, int> parser::getLabel(std::string& inputStr, std::vector<
 std::pair<std::string, int> parser::getDefine(std::string& inputStr, std::vector<std::pair<std::string, int>>& define){
   for (std::pair<std::string, int> pair : define){
     if(inputStr.find(pair.first) == 0 && inputStr.at(pair.first.length()) == '_'){
-      inputStr.erase(0, pair.first.length() + 1);
       return pair;
     }
   }
@@ -127,9 +125,9 @@ std::string parser::parse(std::string& inputStr, std::vector<std::pair<std::stri
     }
     else if (temp == '\\'){
       command(inputStr);
+      std::cerr << "this function is not finished yet, this is  a reminder for me\n";
     }
     
-
     else if (isdigit(temp)){ //immediates
       outputStr += transImmediate(inputStr);
       while(isdigit(inputStr.at(0))){ //doesn't check for multiple immediates because that
