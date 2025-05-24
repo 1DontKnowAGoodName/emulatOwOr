@@ -7,23 +7,23 @@ namespace instructionSet{}
 namespace menu{}
 
 namespace parser{
-  void deleteSpaces(std::string& inputStr); // 
-  void deleteComments(std::string& inputStr); //
+  void deleteSpaces(std::string& inputStr);
+  void deleteComments(std::string& inputStr);
 
-  void pushLabel(std::string& inputStr, std::vector<std::pair <std::string, int>>& label, unsigned short int l);//
-  void pushDefine(std::string& inputStr, std::vector<std::pair <std::string, int>>& define);//
-  bool isLabel(std::string inputStr, std::vector<std::pair <std::string, int>>& define);//
-  bool isDefine(std::string inputStr, std::vector<std::pair <std::string, int>>& define);//
-  std::pair<std::string, int> getLabel(std::string& inputStr, std::vector<std::pair<std::string, int>>& label);//
-  std::pair<std::string, int> getDefine(std::string& inputStr, std::vector<std::pair<std::string, int>>& define);//
+  void pushLabel(std::string& inputStr, std::vector<std::pair <std::string, int>>& label, unsigned short int l);
+  void pushDefine(std::string& inputStr, std::vector<std::pair <std::string, int>>& define);
+  bool isLabel(std::string inputStr, std::vector<std::pair <std::string, int>>& define);
+  bool isDefine(std::string inputStr, std::vector<std::pair <std::string, int>>& define);
+  std::pair<std::string, int> getLabel(std::string& inputStr, std::vector<std::pair<std::string, int>>& label);
+  std::pair<std::string, int> getDefine(std::string& inputStr, std::vector<std::pair<std::string, int>>& define);
 
   void preparse(std::string& inputStr, std::vector<std::pair<std::string, int>>& label, std::vector<std::pair<std::string, int>>& define, unsigned short int l);
   std::string parse(std::string& inputStr, std::vector<std::pair<std::string, int>> define, std::vector<std::pair<std::string, int>> label);
 
-  std::string command(std::string& inputStr);//
-  template <typename T> T transMnemonic(std::string& inputStr, const std::unordered_map<std::string, int>& mnemToNum);//
-  std::string transRegister(std::string& inputStr);//
-  std::string transImmediate(std::string& inputStr);//
+  std::string command(std::string& inputStr);
+  template <typename T> T transMnemonic(std::string& inputStr, const std::unordered_map<std::string, int>& mnemToNum);
+  std::string transRegister(std::string& inputStr);
+  std::string transImmediate(std::string& inputStr);
 }
 
 void parser::deleteComments(std::string& inputStr){
