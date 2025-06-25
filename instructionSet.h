@@ -12,11 +12,12 @@
 #include <bitset>
 #include <sstream>
 
-namespace instructionSet {
+namespace ISA {
   // all the functions that should be able to get called and probably numbered
 
   // function that returns parameters<string>
-  int returnInt(std::string& inputStr, char ch);
+  int RI(std::string& inputStr, char ch);
+
   void NOP(std::string& parameter);
   // template <typename T> const static std::unordered_map<int, T> numToFunk;
 }

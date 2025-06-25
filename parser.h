@@ -1,5 +1,6 @@
 #ifndef PARSER_H
 #define PARSER_H
+#endif
 
 #include <vector>
 #include <unordered_map>
@@ -56,18 +57,18 @@ namespace parser{
   void deleteSpaces(std::string& inputStr);
   void deleteComments(std::string& inputStr);
 
-  void pushLabel(std::string& inputStr, std::vector<std::pair <std::string, int>>& label, computer comp);
+  void pushLabel(std::string& inputStr, std::vector<std::pair <std::string, int>>& label, unsigned short int l);
   void pushDefine(std::string& inputStr, std::vector<std::pair <std::string, int>>& define);
   bool isLabel(std::string inputStr, std::vector<std::pair <std::string, int>>& define);
   bool isDefine(std::string inputStr, std::vector<std::pair <std::string, int>>& define);
   std::pair<std::string, int> getLabel(std::string& inputStr, std::vector<std::pair<std::string, int>>& label);
   std::pair<std::string, int> getDefine(std::string& inputStr, std::vector<std::pair<std::string, int>>& define);
 
-  std::string parse(std::string& inputStr);
+  void addLength(std::string& inputStr);
+
+  std::string parse(std::string& inputStr, std::vector<std::pair<std::string, int>> define, std::vector<std::pair<std::string, int>> label);
   std::string command(std::string& inputStr);
   template <typename T> T transMnemonic(std::string& inputStr, const std::unordered_map<std::string, int>& mnemToNum);
   std::string transRegister(std::string& inputStr);
   std::string transImmediate(std::string& inputStr);
 }
-
-#endif

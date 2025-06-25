@@ -28,5 +28,4 @@
 #include "instructionSet.h"
 
 int main(){
-  return 0;
 }

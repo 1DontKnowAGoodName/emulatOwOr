@@ -2,11 +2,11 @@
 #include "parser.h"
 #include "computer.h"
 
-namespace instructionSet{
+namespace ISA{
   // all the functions that should be able to get called and probably numbered
 
   // function that returns parameters<string>
-  int returnInt(std::string& inputStr, char ch);
+  int RI(std::string& inputStr, char ch);
   void NOP(std::string& parameter);
   //template <typename T> const static std::unordered_map<int, T> numToFunk;
 };
@@ -46,24 +46,40 @@ namespace instructionSet{
 //   {31,}, // mayhaps we make this just a big switch statement
 // };
 
-int instructionSet::returnInt(std::string& inputStr, char ch){
+uint8_t ISA::RI(std::string& inputStr, char ch){
   switch (ch){
-  case 'i':
-    break;
   case 'r':
+    return std::stoi(inputStr.substr(0,1));
     break;
+  case 'i':
   case 'd':
+  case 'l'
+    return std::stoi(inputStr.substr(0,3));
     break;
-  case 'l':
-    break;
-  
   default:
-    std::cerr << "can't find put in char in returnInt()\n";
+    std::cerr << "can't find put-in char in returnInt()\n";
     break;
   }
   return 0;
 }
 
-void instructionSet::NOP(std::string& parameter){
+//OR: |
+//NOT: ~
+//NOR: ~( | )
+//NAND: ~( & )
+//XOR: ^
+//BSR: >>
+//BSL: <<
+
+void ISA::NOP(std::string& parameter){
   return;
+}
+void ISA::ADD(std::string& par, computer comp){
+  comp.sReg(comp.gReg(ISA::RI(par, 'r')) + comp.gReg(ISA::RI(par, 'r')), ISA::RI(par, 'r'));
+}
+void ISA::SUB(std::string& par, computer comp){
+  comp.sReg(comp.gReg(ISA::RI(par, 'r')) - comp.gReg(ISA::RI(par, 'r')), ISA::RI(par, 'r'));
+}
+void ISA::AND(std::string& par, computer comp){
+  comp.sReg(comp.gReg(ISA::RI(par, 'r')) & comp.gReg(ISA::RI(par, 'r')), ISA::RI(par, 'r'));
 }

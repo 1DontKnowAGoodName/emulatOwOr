@@ -1,6 +1,14 @@
 #include <iostream>
 #include "raylib.h"
 
+
+/* TO DO:
+ buttons
+ screen
+ RAM
+ DONE?
+*/
+
 // asserting dominance
 #undef windowHeight
 #define windowHeight 450
@@ -13,10 +21,10 @@
 #endif
 
 typedef enum tabScreen {SETUP = 0, CONTROL, CODE, RAM, SCREEN} tabScreen; 
-//screensizes: 2048p : 45x45, 32x64you
-//             1024p : 32x32
-//              512p : 22x22
-//              256p : 16x16
+//screensizes: 2048p : 45x45, 32x64 //or this one, just 2:1, me likies.
+//       1024p 2-bit : 32x32  16x64
+//        512p 3-bit : 22x22  16x32 //this might be awesome, 8 colours 2:1 aspect ratio
+//        256p 4 bit : 16x16
 
 void inline drawIcon(const std::string& icon, const unsigned int x, const unsigned int y){
   if (icon == "bars"){  // 22x26

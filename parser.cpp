@@ -20,6 +20,8 @@ namespace parser{
   void preparse(std::string& inputStr, std::vector<std::pair<std::string, int>>& label, std::vector<std::pair<std::string, int>>& define, unsigned short int l);
   std::string parse(std::string& inputStr, std::vector<std::pair<std::string, int>> define, std::vector<std::pair<std::string, int>> label);
 
+  void addLength(std::string& inputStr);
+
   std::string command(std::string& inputStr);
   template <typename T> T transMnemonic(std::string& inputStr, const std::unordered_map<std::string, int>& mnemToNum);
   std::string transRegister(std::string& inputStr);
@@ -116,25 +118,30 @@ std::string parser::parse(std::string& inputStr, std::vector<std::pair<std::stri
     if (temp == 'r'){ //registers
       outputStr += transRegister(inputStr);
       inputStr.erase(0,2);
-    }
+    } 
     else if(temp == '.' && isLabel(inputStr, label)){ //labels
       std::pair<std::string, int> pair = getLabel(inputStr, label);
-      outputStr += std::to_string(pair.second);
+      outputStr += addLength(std::to_string(pair.second));
       inputStr.erase(0, pair.first.length()+1);
     }
     else if (isdigit(temp) && !inputStr.empty()){ //immediates
-      outputStr += transImmediate(inputStr);
+      outputStr += addLength(transImmediate(inputStr));
       while(!inputStr.empty() && isdigit(inputStr.at(0))){ //doesn't check for multiple immediates because that
         inputStr.erase(0, 1);                              //because that wouldn't be possible, opcode + 2 imm > 16 bits
       }
     }
     else if (!isdigit(temp) && !inputStr.empty()){ //defines
       std::pair<std::string, int> pair = getDefine(inputStr, define);
-      outputStr += std::to_string(pair.second);
+      outputStr += addLength(std::to_string(pair.second));
       inputStr.erase(0, pair.first.length()+1);
     }
   }
   return outputStr;
+}
+void parser::addLength(std::string& inputStr){
+  while(inputStr.length() < 3){
+    inputStr.insert(0, "0");
+  }
 }
 
 std::string parser::command(std::string& inputStr){
@@ -142,7 +149,7 @@ std::string parser::command(std::string& inputStr){
     //break
   }
   else if(inputStr.find("/list") == 0){;
-    //list
+    //list  
   }
   else if(inputStr.find("broadcast")){;
     //blank
@@ -168,13 +175,10 @@ std::string parser::transImmediate(std::string& inputStr){
     if(!isdigit(inputStr.at(i))){ break; }
     temp.push_back(inputStr.at(i));
     if ((i + 1) == inputStr.length()){ break; }
-  }
-  while(temp.length() < 3){
-    temp.insert(0, "0");
-  }
-  return temp;
+  }  
   if (stoi(temp) < 0 || stoi(temp) > 255){
     std::cerr << "immediate out of range, program won't handle this number\n"; 
   }
+  addLength(temp);
   return temp;
 }
