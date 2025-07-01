@@ -113,6 +113,9 @@ void parser::preparse(std::string& inputStr, std::vector<std::pair<std::string, 
 }
 std::string parser::parse(std::string& inputStr, std::vector<std::pair<std::string, int>> define, std::vector<std::pair<std::string, int>> label){
   std::string outputStr;
+
+  // VERY IMPORTANT, PLACE THE FUNCTION TO TRANSLATE THE MNEMONIC TO A NUMBER HERE TOOO OTHERWISE THIS IS JUST TRANSLATING PARAMETERS!!!
+
   while(!inputStr.empty()){
     char temp = inputStr.at(0);
     if (temp == 'r'){ //registers
