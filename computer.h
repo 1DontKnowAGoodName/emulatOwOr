@@ -24,14 +24,12 @@ class computer{
     std::string instructionReg;
     unsigned short int PC;
     
-    uint8_t gReg (uint8_t pos); // remember that there's a zero read register //
-    uint8_t gram (uint8_t pos); //
-    uint8_t gVram (uint8_t pos); //
-    void sReg (uint8_t val, uint8_t pos); //
-    void sram (uint8_t val, uint8_t pos); //
-    void sVram (uint8_t val, uint8_t pos); //
-  
-    void decodeInstruction();
+    uint8_t gReg (uint8_t pos);
+    uint8_t gram (uint8_t pos);
+    uint8_t gVram (uint8_t pos);
+    void sReg (uint8_t val, uint8_t pos);
+    void sram (uint8_t val, uint8_t pos);
+    void sVram (uint8_t val, uint8_t pos);
   };
 
 #endif

@@ -7,7 +7,7 @@ namespace ISA{
   // all the functions that should be able to get called and probably numbered
 
   // function that returns parameters<string>
-  uint8_t RI(std::string& inputStr, char ch, int place);
+  uint8_t RI(const std::string& inputStr, char ch, int place);
 
   void NOP(std::string& parameter);
   void LDI(std::string& par, computer& C);
@@ -71,6 +71,10 @@ namespace ISA{
 //   {30,},
 //   {31,}, // mayhaps we make this just a big switch statement
 // };
+
+
+
+
 
 uint8_t ISA::RI(const std::string& inputStr, char ch, int place){ //assumes mnemonic is read and deleted beforehand
   switch (ch){
@@ -141,7 +145,7 @@ void ISA::XOR(std::string& par, computer& C){
   C.sReg(C.gReg(ISA::RI(par, 'r', 1)) ^ C.gReg(ISA::RI(par, 'r', 2)), ISA::RI(par, 'r', 0));
 }
 void ISA::NOT(std::string& par, computer& C){
-  C.sReg(C.gReg(ISA::RI(par, 'r',1)), ISA::RI(par, 'r', 0));
+  C.sReg(~C.gReg(ISA::RI(par, 'r',1)), ISA::RI(par, 'r', 0));
 }
 void ISA::RBS(std::string& par, computer& C){
   C.sReg(C.gReg(ISA::RI(par, 'r', 1)) >> C.gReg(ISA::RI(par, 'r', 2)), ISA::RI(par, 'r', 0));

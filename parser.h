@@ -1,6 +1,5 @@
 #ifndef PARSER_H
 #define PARSER_H
-#endif
 
 #include <vector>
 #include <unordered_map>
@@ -65,10 +64,12 @@ namespace parser{
   std::pair<std::string, int> getDefine(std::string& inputStr, std::vector<std::pair<std::string, int>>& define);
 
   void addLength(std::string& inputStr);
-
+  // still needs work V
   std::string parse(std::string& inputStr, std::vector<std::pair<std::string, int>> define, std::vector<std::pair<std::string, int>> label);
   std::string command(std::string& inputStr);
   template <typename T> T transMnemonic(std::string& inputStr, const std::unordered_map<std::string, int>& mnemToNum);
   std::string transRegister(std::string& inputStr);
   std::string transImmediate(std::string& inputStr);
 }
+
+#endif

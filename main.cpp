@@ -27,7 +27,5 @@
 #include "parser.h"
 #include "instructionSet.h"
 
-//make the one computer instance a global, it's worth it imo
-
 int main(){
 }

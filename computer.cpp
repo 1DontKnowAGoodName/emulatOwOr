@@ -26,13 +26,13 @@ void computer::sram (uint8_t val, uint8_t pos){
   if(pos < 0 || pos > 255){
     return;
   }
-  regs.at(pos) = val;
+  RAM.at(pos) = val;
   return;
 }
 void computer::sVram (uint8_t val, uint8_t pos){
   if(pos < 0 || pos > 255){
     return;
   }
-  regs.at(pos) = val;
+  vidRAM.at(pos) = val;
   return;
 }
