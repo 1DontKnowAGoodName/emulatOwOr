@@ -27,5 +27,27 @@
 #include "parser.h"
 #include "instructionSet.h"
 
-int main(){
+int main(){ // do the the core logic first
+/*
+set a clock speed
+
+open the windows and stuff
+
+open the input file
+
+preparse the thing for the defines and stuff
+
+main loop{
+
+put insctruction in instruction reg
+
+parse
+
+execute
+
+window drawing and stuff, and input and so on, maybe figure out the framerate, i might have to optimise this, but idk, it's C++
+
+next line in document.
+}
+*/
 }
