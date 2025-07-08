@@ -20,7 +20,7 @@ namespace parser{
   void addLength(std::string& inputStr);
   
   void preparse(std::string& inputStr, std::vector<std::pair<std::string, int>>& label, std::vector<std::pair<std::string, int>>& define, unsigned short int l);
-  std::string parse(std::string& inputStr, std::vector<std::pair<std::string, int>> define, std::vector<std::pair<std::string, int>> label);
+  std::string parse(std::string& inputStr, std::vector<std::pair<std::string, int>> define, const std::vector<std::pair<std::string, int>> label, std::unordered_map<std::string, int> &mnemToNum);
 
   std::string command(std::string& inputStr);
   template <typename T> T transMnemonic(std::string& inputStr, const std::unordered_map<std::string, int>& mnemToNum);
@@ -111,14 +111,13 @@ void parser::preparse(std::string& inputStr, std::vector<std::pair<std::string, 
   }
   return;
 }
-std::string parser::parse(std::string& inputStr, std::vector<std::pair<std::string, int>> define, std::vector<std::pair<std::string, int>> label){
-  std::string outputStr;
-
-  // VERY IMPORTANT, PLACE THE FUNCTION TO TRANSLATE THE MNEMONIC TO A NUMBER HERE TOOO OTHERWISE THIS IS JUST TRANSLATING PARAMETERS!!!
+std::string parser::parse(std::string& inputStr, std::vector<std::pair<std::string, int>> define, const std::vector<std::pair<std::string, int>> label, std::unordered_map<std::string, int> &mnemToNum){
+  std::string outputStr = transMnemonic(inputStr, mnemToNum);
+  inputStr.erase(0,3);
 
   while(!inputStr.empty()){
     char temp = inputStr.at(0);
-    if (temp == 'r'){ //registers
+    if (temp == 'r'){                                 //registers
       outputStr += transRegister(inputStr);
       inputStr.erase(0,2);
     } 
@@ -127,13 +126,13 @@ std::string parser::parse(std::string& inputStr, std::vector<std::pair<std::stri
       outputStr += addLength(std::to_string(pair.second));
       inputStr.erase(0, pair.first.length()+1);
     }
-    else if (isdigit(temp) && !inputStr.empty()){ //immediates
+    else if (isdigit(temp) && !inputStr.empty()){     //immediates
       outputStr += addLength(transImmediate(inputStr));
       while(!inputStr.empty() && isdigit(inputStr.at(0))){ //doesn't check for multiple immediates because that
         inputStr.erase(0, 1);                              //because that wouldn't be possible, opcode + 2 imm > 16 bits
       }
     }
-    else if (!isdigit(temp) && !inputStr.empty()){ //defines
+    else if (!isdigit(temp) && !inputStr.empty()){    //defines
       std::pair<std::string, int> pair = getDefine(inputStr, define);
       outputStr += addLength(std::to_string(pair.second));
       inputStr.erase(0, pair.first.length()+1);

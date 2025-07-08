@@ -56,11 +56,14 @@ while(std::getline(code, codeLine)){
 }
 
 code.clear();
-code.seekg(0, std::ios::beg);
+code.seekg(0, std::ios::beg); 
 
-while(std::getline(code, codeLine)){
-
-
+for(;;){ // main loop // this needs work, it needs to go like to the PC, but that's harrrrddd
+  std::getline(code, comp.instructionReg)
+  parser::deleteComments(comp.instructionReg);
+  parser::deleteSpaces(comp.instructionReg);
+  std::string str = parser::parse(comp.instructionReg, parser::define, parser::label);
+  ++comp.PC
 }
 
 /*
@@ -68,15 +71,9 @@ open the windows and stuff
 
 main loop{
 
-put insctruction in instruction reg
-
-parse
-
 execute
 
 window drawing and stuff, and input and so on, maybe figure out the framerate, i might have to optimise this, but idk, it's C++
-
-next line in document.
 }
 */
 }

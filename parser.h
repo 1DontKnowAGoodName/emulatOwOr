@@ -66,7 +66,7 @@ namespace parser{
   void addLength(std::string& inputStr);
 
   // still needs work V  
-  std::string parse(std::string& inputStr, std::vector<std::pair<std::string, int>> define, std::vector<std::pair<std::string, int>> label);
+  std::string parse(std::string& inputStr, std::vector<std::pair<std::string, int>> define, const std::vector<std::pair<std::string, int>> label, std::unordered_map<std::string, int> &mnemToNum);
   void preparse(std::string& inputStr, std::vector<std::pair<std::string, int>>& label, std::vector<std::pair<std::string, int>>& define, unsigned short int l);
 
   std::string command(std::string& inputStr);
