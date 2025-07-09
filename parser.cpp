@@ -19,7 +19,7 @@ namespace parser{
 
   void addLength(std::string& inputStr);
   
-  void preparse(std::string& inputStr, std::vector<std::pair<std::string, int>>& label, std::vector<std::pair<std::string, int>>& define, unsigned short int l);
+  void preparse(std::string inputStr, std::vector<std::pair<std::string, int>>& label, std::vector<std::pair<std::string, int>>& define, unsigned short int l);
   std::string parse(std::string& inputStr, std::vector<std::pair<std::string, int>> define, const std::vector<std::pair<std::string, int>> label, std::unordered_map<std::string, int> &mnemToNum);
 
   std::string command(std::string& inputStr);
@@ -95,7 +95,7 @@ std::pair<std::string, int> parser::getDefine(std::string& inputStr, std::vector
   return {"error", -1};
 }
 
-void parser::preparse(std::string& inputStr, std::vector<std::pair<std::string, int>>& label, std::vector<std::pair<std::string, int>>& define, unsigned short int l){
+void parser::preparse(std::string inputStr, std::vector<std::pair<std::string, int>>& label, std::vector<std::pair<std::string, int>>& define, unsigned short int l){
   if(inputStr.at(0) == '.' && isLabel(inputStr, label)){
     std::cerr << "you declared an already declared label\n";
   }

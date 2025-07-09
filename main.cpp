@@ -42,28 +42,23 @@ if(!code.is_open()){
 }
 
 computer comp;
-
-//preparse
-int line = 0;
 std::string codeLine;
-while(std::getline(code, codeLine)){
+std::vector<std::string> CodeVector;  // i store the code in a vector, for easier 
+                                      // reference. some would call this 'cringe' and ' 
+                                      // fucking deranged' but did i ever say i wasn't?
+while (std::getline(code, codeLine)){
   parser::deleteComments(codeLine);
   parser::deleteSpaces(codeLine);
-  if(!(codeLine.at(0) == '/')){
-    ++line;
-  }
-  parser::preparse(codeLine, parser::label, parser::define, line);
+  CodeVector.
 }
 
-code.clear();
-code.seekg(0, std::ios::beg); 
+//preparse
+for(int line = 0; line < CodeVector.size(); ++line){
+  parser::preparse(CodeVector.at(i)/*pass by copy*/, parser::label, parser::define, line);
+}
 
-for(;;){ // main loop // this needs work, it needs to go like to the PC, but that's harrrrddd
-  std::getline(code, comp.instructionReg)
-  parser::deleteComments(comp.instructionReg);
-  parser::deleteSpaces(comp.instructionReg);
-  std::string str = parser::parse(comp.instructionReg, parser::define, parser::label);
-  ++comp.PC
+for(comp.PC = 0; comp.PC < CodeVector.size(); comp.PC++){ // main loop // this needs work, it needs to go like to the PC, but that's harrrrddd
+  comp.instructionReg = parser::parse(CodeVector.at(line), parser::define, parser::label);
 }
 
 /*
