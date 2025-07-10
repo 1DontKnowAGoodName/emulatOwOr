@@ -18,9 +18,9 @@ namespace parser{
   std::pair<std::string, int> getDefine(std::string& inputStr, std::vector<std::pair<std::string, int>>& define);
 
   void addLength(std::string& inputStr);
-  
+
   void preparse(std::string inputStr, std::vector<std::pair<std::string, int>>& label, std::vector<std::pair<std::string, int>>& define, unsigned short int l);
-  std::string parse(std::string& inputStr, std::vector<std::pair<std::string, int>> define, const std::vector<std::pair<std::string, int>> label, std::unordered_map<std::string, int> &mnemToNum);
+  std::string parse(std::string& inputStr, std::vector<std::pair<std::string, int>> define, const std::vector<std::pair<std::string, int>> label, const std::unordered_map<std::string, int> &mnemToNum);
 
   std::string command(std::string& inputStr);
   template <typename T> T transMnemonic(std::string& inputStr, const std::unordered_map<std::string, int>& mnemToNum);
@@ -111,7 +111,7 @@ void parser::preparse(std::string inputStr, std::vector<std::pair<std::string, i
   }
   return;
 }
-std::string parser::parse(std::string& inputStr, std::vector<std::pair<std::string, int>> define, const std::vector<std::pair<std::string, int>> label, std::unordered_map<std::string, int> &mnemToNum){
+std::string parser::parse(std::string& inputStr, std::vector<std::pair<std::string, int>> define, const std::vector<std::pair<std::string, int>> label, const std::unordered_map<std::string, int> &mnemToNum){
   std::string outputStr = transMnemonic(inputStr, mnemToNum);
   inputStr.erase(0,3);
 
