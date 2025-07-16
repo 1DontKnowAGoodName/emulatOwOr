@@ -4,9 +4,7 @@
 
 
 namespace ISA{
-  // all the functions that should be able to get called and probably numbered
 
-  // function that returns parameters<string>
   uint8_t RI(const std::string& inputStr, char ch, int place);
 
   void NOP(std::string& parameter);
@@ -34,7 +32,6 @@ namespace ISA{
   void ODD(std::string& par, computer& C);
   void INC(std::string& par, computer& C);
   void DCR(std::string& par, computer& C);
-  //template <typename T> const static std::unordered_map<int, T> numToFunk;
 };
 
 // template <typename T> const static std::unordered_map<int, T> numToFunk{
