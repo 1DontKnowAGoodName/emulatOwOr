@@ -1,16 +1,16 @@
 #ifndef ISA_H
 #define ISA_H
 
-#include <vector>
 #include <unordered_map>
+#include <algorithm>
 #include <iostream>
-#include <string>
 #include <cstdint>
 #include <fstream>
-#include <array>
-#include <algorithm>
-#include <bitset>
 #include <sstream>
+#include <bitset>
+#include <string>
+#include <vector>
+#include <array>
 
 class computer;
 

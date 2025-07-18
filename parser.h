@@ -1,18 +1,16 @@
 #ifndef PARSER_H
 #define PARSER_H
 
-#include <vector>
 #include <unordered_map>
+#include <algorithm>
 #include <iostream>
-#include <string>
 #include <cstdint>
 #include <fstream>
-#include <array>
-#include <algorithm>
-#include <bitset>
 #include <sstream>
-
-class computer;
+#include <bitset>
+#include <string>
+#include <vector>
+#include <array>
 
 namespace parser{
   extern std::vector<std::pair <std::string, int>> label;
@@ -65,7 +63,6 @@ namespace parser{
 
   std::string addLength(std::string inputStr);
 
-  // still needs work V  
   std::string parse(std::string& inputStr, std::vector<std::pair<std::string, int>> define, const std::vector<std::pair<std::string, int>> label, const std::unordered_map<std::string, int> &mnemToNum);
   void preparse(std::string inputStr, std::vector<std::pair<std::string, int>>& label, std::vector<std::pair<std::string, int>>& define, unsigned short int l);
 
