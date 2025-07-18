@@ -12,11 +12,12 @@
 #include <bitset>
 #include <sstream>
 
+class computer;
+
 namespace ISA {
-  // all the functions that should be able to get called and probably numbered
   uint8_t RI(const std::string& inputStr, char ch, int place);
 
-  void NOP(std::string& parameter);
+  void NOP(std::string& par, computer& C);
   void LDI(std::string& par, computer& C);
   void STO(std::string& par, computer& C);
   void GET(std::string& par, computer& C);
@@ -42,40 +43,7 @@ namespace ISA {
   void INC(std::string& par, computer& C);
   void DCR(std::string& par, computer& C);
  
-  const static std::unordered_map<int, void *> numToFunk{
-  {0, NOP},
-  {1, LDI},
-  {2, STO},
-  {3, GET},
-  {4, MOV},
-  {5, },
-  {6, },
-  {7, },
-  {8, },
-  {9, },
-  {10, JIT},
-  {11, ECT},
-  {12, GCT},
-  {13, GTV},
-  {14, PTV},
-  {15, HLT},
-  {16, NOP},
-  {17, ADD},
-  {18, SUB},
-  {19, AND},
-  {20, ORE},
-  {21, XOR},
-  {22, NOT},
-  {23, },
-  {24,RBS},
-  {25,LBS},
-  {26,CMP},
-  {27, },
-  {28,MLT},
-  {29,ODD},
-  {30,INC},
-  {31,DCR}, // mayhaps we make this just a big switch statement
-};
+  extern const std::unordered_map<int, void (*)(std::string& par, computer& C)> numToFunk;
 }
 
 #endif

@@ -1,13 +1,11 @@
-#include "computer.h"
 #include "instructionSet.h"
 #include "parser.h"
-
+#include "computer.h"
 
 namespace ISA{
-
   uint8_t RI(const std::string& inputStr, char ch, int place);
 
-  void NOP(std::string& parameter);
+  void NOP(std::string& par, computer& C);
   void LDI(std::string& par, computer& C);
   void STO(std::string& par, computer& C);
   void GET(std::string& par, computer& C);
@@ -32,46 +30,41 @@ namespace ISA{
   void ODD(std::string& par, computer& C);
   void INC(std::string& par, computer& C);
   void DCR(std::string& par, computer& C);
+  const std::unordered_map<int, void (*)(std::string&, computer&)> numToFunk{
+    {0, NOP},
+    {1, LDI},
+    {2, STO},
+    {3, GET},
+    {4, MOV},
+    {5, NOP},
+    {6, NOP},
+    {7, NOP},
+    {8, NOP},
+    {9, NOP},
+    {10, JIT},
+    {11, ECT},
+    {12, GCT},
+    {13, GTV},
+    {14, PTV},
+    {15, HLT},
+    {16, NOP},
+    {17, ADD},
+    {18, SUB},
+    {19, AND},
+    {20, ORE},
+    {21, XOR},
+    {22, NOT},
+    {23, NOP},
+    {24, RBS},
+    {25, LBS},
+    {26, CMP},
+    {27, NOP},
+    {28, MLT},
+    {29, ODD},
+    {30, INC},
+    {31, DCR}
+  };
 };
-
-// template <typename T> const static std::unordered_map<int, T> numToFunk{
-//   {0,},
-//   {1,},
-//   {2,},
-//   {3,},
-//   {4,},
-//   {5,},
-//   {6,},
-//   {7,},
-//   {8,},
-//   {9,},
-//   {10,},
-//   {11,},
-//   {12,},
-//   {13,},
-//   {14,},
-//   {15,},
-//   {16,},
-//   {17,},
-//   {18,},
-//   {19,},
-//   {20,},
-//   {21,},
-//   {22,},
-//   {23,},
-//   {24,},
-//   {25,},
-//   {26,},
-//   {27,},
-//   {28,},
-//   {29,},
-//   {30,},
-//   {31,}, // mayhaps we make this just a big switch statement
-// };
-
-
-
-
 
 uint8_t ISA::RI(const std::string& inputStr, char ch, int place){ //assumes mnemonic is read and deleted beforehand
   switch (ch){
@@ -90,7 +83,7 @@ uint8_t ISA::RI(const std::string& inputStr, char ch, int place){ //assumes mnem
   return 0;
 }
 
-void ISA::NOP(std::string& parameter){
+void ISA::NOP(std::string& par, computer& C){
   return;
 }
 void ISA::LDI(std::string& par, computer& C){

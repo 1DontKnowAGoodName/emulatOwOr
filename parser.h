@@ -58,19 +58,19 @@ namespace parser{
 
   void pushLabel(std::string& inputStr, std::vector<std::pair <std::string, int>>& label, unsigned short int l);
   void pushDefine(std::string& inputStr, std::vector<std::pair <std::string, int>>& define);
-  bool isLabel(std::string inputStr, std::vector<std::pair <std::string, int>>& define);
-  bool isDefine(std::string inputStr, std::vector<std::pair <std::string, int>>& define);
-  std::pair<std::string, int> getLabel(std::string& inputStr, std::vector<std::pair<std::string, int>>& label);
-  std::pair<std::string, int> getDefine(std::string& inputStr, std::vector<std::pair<std::string, int>>& define);
+  bool isLabel(std::string inputStr, const std::vector<std::pair <std::string, int>>& define);
+  bool isDefine(std::string inputStr, const std::vector<std::pair <std::string, int>>& define);
+  std::pair<std::string, int> getLabel(std::string& inputStr, const std::vector<std::pair<std::string, int>>& label);
+  std::pair<std::string, int> getDefine(std::string& inputStr, const std::vector<std::pair<std::string, int>>& define);
 
-  void addLength(std::string& inputStr);
+  std::string addLength(std::string inputStr);
 
   // still needs work V  
   std::string parse(std::string& inputStr, std::vector<std::pair<std::string, int>> define, const std::vector<std::pair<std::string, int>> label, const std::unordered_map<std::string, int> &mnemToNum);
   void preparse(std::string inputStr, std::vector<std::pair<std::string, int>>& label, std::vector<std::pair<std::string, int>>& define, unsigned short int l);
 
   std::string command(std::string& inputStr);
-  template <typename T> T transMnemonic(std::string& inputStr, const std::unordered_map<std::string, int>& mnemToNum);
+  auto transMnemonic(std::string& inputStr, const std::unordered_map<std::string, int>& mnemToNum);
   std::string transRegister(std::string& inputStr);
   std::string transImmediate(std::string& inputStr);
 }

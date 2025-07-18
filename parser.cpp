@@ -12,18 +12,18 @@ namespace parser{
 
   void pushLabel(std::string& inputStr, std::vector<std::pair <std::string, int>>& label, unsigned short int l);
   void pushDefine(std::string& inputStr, std::vector<std::pair <std::string, int>>& define);
-  bool isLabel(std::string inputStr, std::vector<std::pair <std::string, int>>& define);
-  bool isDefine(std::string inputStr, std::vector<std::pair <std::string, int>>& define);
-  std::pair<std::string, int> getLabel(std::string& inputStr, std::vector<std::pair<std::string, int>>& label);
-  std::pair<std::string, int> getDefine(std::string& inputStr, std::vector<std::pair<std::string, int>>& define);
+  bool isLabel(std::string inputStr, const std::vector<std::pair <std::string, int>>& define);
+  bool isDefine(std::string inputStr, const std::vector<std::pair <std::string, int>>& define);
+  std::pair<std::string, int> getLabel(std::string& inputStr, const std::vector<std::pair<std::string, int>>& label);
+  std::pair<std::string, int> getDefine(std::string& inputStr, const std::vector<std::pair<std::string, int>>& define);
 
-  void addLength(std::string& inputStr);
+  std::string addLength(std::string inputStr);
 
   void preparse(std::string inputStr, std::vector<std::pair<std::string, int>>& label, std::vector<std::pair<std::string, int>>& define, unsigned short int l);
   std::string parse(std::string& inputStr, std::vector<std::pair<std::string, int>> define, const std::vector<std::pair<std::string, int>> label, const std::unordered_map<std::string, int> &mnemToNum);
 
   std::string command(std::string& inputStr);
-  template <typename T> T transMnemonic(std::string& inputStr, const std::unordered_map<std::string, int>& mnemToNum);
+  auto transMnemonic(std::string& inputStr, const std::unordered_map<std::string, int>& mnemToNum);
   std::string transRegister(std::string& inputStr);
   std::string transImmediate(std::string& inputStr);
 }
@@ -62,7 +62,7 @@ void parser::pushDefine(std::string& inputStr, std::vector<std::pair <std::strin
   }
   define.push_back({temp, stoi(inputStr)});
 }
-bool parser::isLabel(std::string inputStr, std::vector<std::pair<std::string, int>>& label){
+bool parser::isLabel(std::string inputStr, const std::vector<std::pair<std::string, int>>& label){
   for(std::pair<std::string, int> pair : label){
     if(inputStr.find(pair.first) == 0 && inputStr.at(pair.first.length()) == '_'){
       return true;
@@ -70,7 +70,7 @@ bool parser::isLabel(std::string inputStr, std::vector<std::pair<std::string, in
   }
   return false;
 }
-bool parser::isDefine(std::string inputStr, std::vector<std::pair<std::string, int>>& label){
+bool parser::isDefine(std::string inputStr, const std::vector<std::pair<std::string, int>>& label){
   for(std::pair<std::string, int> pair : label){
     if(inputStr.find(pair.first) == 0 && inputStr.at(pair.first.length()) == '_'){
       return true;
@@ -78,7 +78,7 @@ bool parser::isDefine(std::string inputStr, std::vector<std::pair<std::string, i
   }
   return false;
 }
-std::pair<std::string, int> parser::getLabel(std::string& inputStr, std::vector<std::pair<std::string, int>>& label){
+std::pair<std::string, int> parser::getLabel(std::string& inputStr, const std::vector<std::pair<std::string, int>>& label){
   for (std::pair<std::string, int> pair : label){
     if(inputStr.find(pair.first) == 0 && inputStr.at(pair.first.length()) == '_'){
       return pair;
@@ -86,13 +86,59 @@ std::pair<std::string, int> parser::getLabel(std::string& inputStr, std::vector<
   }
   return {"error", -1};
 }
-std::pair<std::string, int> parser::getDefine(std::string& inputStr, std::vector<std::pair<std::string, int>>& define){
+std::pair<std::string, int> parser::getDefine(std::string& inputStr, const std::vector<std::pair<std::string, int>>& define){
   for (std::pair<std::string, int> pair : define){
     if(inputStr.find(pair.first) == 0 && inputStr.at(pair.first.length()) == '_'){
       return pair;
     }
   }
   return {"error", -1};
+}
+
+std::string parser::addLength(std::string inputStr){
+  while(inputStr.length() < 3){
+    inputStr.insert(0, "0");
+  }
+  return inputStr;
+}
+
+std::string parser::command(std::string& inputStr){
+  if(inputStr.find("/break") == 0){;
+    //break
+  }
+  else if(inputStr.find("/list") == 0){;
+    //list  
+  }
+  else if(inputStr.find("broadcast")){;
+    //blank
+  }
+  else{
+    std::cerr << "this command isn't recognized\n";
+  }
+  return "";
+}
+auto parser::transMnemonic(std::string& inputStr, const std::unordered_map<std::string, int>& mnemToNum){
+  return std::to_string(mnemToNum.find(inputStr.substr(0, 3))->second);
+}
+std::string parser::transRegister(std::string& inputStr){
+  if (inputStr.at(1) == '8' || inputStr.at(1) == '9'){
+    std::cerr << inputStr.at(1) << " is not a real register\n";
+    return "err";
+  }
+  return {inputStr.at(1)};
+}
+std::string parser::transImmediate(std::string& inputStr){
+  std::string temp;
+  for(int i = 0; i < 3; i++){
+    if(!isdigit(inputStr.at(i))){ break; }
+    temp.push_back(inputStr.at(i));
+    if ((i + 1) == inputStr.length()){ break; }
+  }  
+  if (stoi(temp) < 0 || stoi(temp) > 255){
+    std::cerr << "immediate out of range, program won't handle this number\n"; 
+  }
+  addLength(temp);
+  return temp;
 }
 
 void parser::preparse(std::string inputStr, std::vector<std::pair<std::string, int>>& label, std::vector<std::pair<std::string, int>>& define, unsigned short int l){
@@ -121,10 +167,10 @@ std::string parser::parse(std::string& inputStr, std::vector<std::pair<std::stri
       outputStr += transRegister(inputStr);
       inputStr.erase(0,2);
     } 
-    else if(temp == '.' && isLabel(inputStr, label)){ //labels
+    else if(temp == '.' && parser::isLabel(inputStr, label)){ //labels
       std::pair<std::string, int> pair = getLabel(inputStr, label);
       outputStr += addLength(std::to_string(pair.second));
-      inputStr.erase(0, pair.first.length()+1);
+      inputStr.erase(0, pair.first.length()+1); 
     }
     else if (isdigit(temp) && !inputStr.empty()){     //immediates
       outputStr += addLength(transImmediate(inputStr));
@@ -139,49 +185,4 @@ std::string parser::parse(std::string& inputStr, std::vector<std::pair<std::stri
     }
   }
   return outputStr;
-}
-
-void parser::addLength(std::string& inputStr){
-  while(inputStr.length() < 3){
-    inputStr.insert(0, "0");
-  }
-}
-
-std::string parser::command(std::string& inputStr){
-  if(inputStr.find("/break") == 0){;
-    //break
-  }
-  else if(inputStr.find("/list") == 0){;
-    //list  
-  }
-  else if(inputStr.find("broadcast")){;
-    //blank
-  }
-  else{
-    std::cerr << "this command isn't recognized\n";
-  }
-  return "";
-}
-template <typename T> T parser::transMnemonic(std::string& inputStr, const std::unordered_map<std::string, int>& mnemToNum){
-  return std::to_string(mnemToNum.find(inputStr.substr(0, 3))->second);
-}
-std::string parser::transRegister(std::string& inputStr){
-  if (inputStr.at(1) == '8' || inputStr.at(1) == '9'){
-    std::cerr << inputStr.at(1) << " is not a real register\n";
-    return "err";
-  }
-  return {inputStr.at(1)};
-}
-std::string parser::transImmediate(std::string& inputStr){
-  std::string temp;
-  for(int i = 0; i < 3; i++){
-    if(!isdigit(inputStr.at(i))){ break; }
-    temp.push_back(inputStr.at(i));
-    if ((i + 1) == inputStr.length()){ break; }
-  }  
-  if (stoi(temp) < 0 || stoi(temp) > 255){
-    std::cerr << "immediate out of range, program won't handle this number\n"; 
-  }
-  addLength(temp);
-  return temp;
 }
