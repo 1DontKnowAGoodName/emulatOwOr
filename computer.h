@@ -24,6 +24,8 @@ class computer{
     std::string instructionReg;
     unsigned short int PC;
     
+    void executeInstruction();
+
     uint8_t gReg (uint8_t pos);
     uint8_t gram (uint8_t pos);
     uint8_t gVram (uint8_t pos);

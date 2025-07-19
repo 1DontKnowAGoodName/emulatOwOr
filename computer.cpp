@@ -4,6 +4,15 @@
 
 computer::computer() : PC(0) {}
 
+void computer::executeInstruction(){
+  char cache = this->instructionReg.at(0);
+  this->instructionReg.erase(0, 0);
+
+  ISA::numToFunk.find(cache)->second(this->instructionReg, *this);
+  this->instructionReg.erase();
+  return;
+}
+
 uint8_t computer::gReg(uint8_t pos){
   if (pos == 0){return 0;}
   else if (pos < 1 || pos > 7){return 255;}

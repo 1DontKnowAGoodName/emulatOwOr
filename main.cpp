@@ -58,10 +58,7 @@ int main(){ // do the the core logic first
 
   for(comp.PC = 0; comp.PC < CodeVector.size(); comp.PC++){
     comp.instructionReg = parser::parse(CodeVector.at(comp.PC), parser::define, parser::label, parser::mnemToNum);
-  	// execute instruction reg
-    
-
-    //draw window, and look for inputs. i hope the framerate is high enough for this not to be laggy
+    comp.executeInstruction();
   }
 
   return 0;
