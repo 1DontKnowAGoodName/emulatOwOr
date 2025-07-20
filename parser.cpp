@@ -7,6 +7,9 @@ namespace instructionSet{}
 namespace menu{}
 
 namespace parser{
+  std::vector<std::pair <std::string, int>> label;
+  std::vector<std::pair <std::string, int>> define;
+
   void deleteSpaces(std::string& inputStr);
   void deleteComments(std::string& inputStr);
 

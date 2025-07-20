@@ -5,8 +5,8 @@
 computer::computer() : PC(0) {}
 
 void computer::executeInstruction(){
-  char cache = this->instructionReg.at(0);
-  this->instructionReg.erase(0, 0);
+  int cache = static_cast<int>(this->instructionReg.at(0) - '0');
+  this->instructionReg.erase(0, 1);
 
   ISA::numToFunk.find(cache)->second(this->instructionReg, *this);
   this->instructionReg.erase();
