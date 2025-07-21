@@ -67,7 +67,7 @@ namespace parser{
   void preparse(std::string inputStr, std::vector<std::pair<std::string, int>>& label, std::vector<std::pair<std::string, int>>& define, unsigned short int l);
 
   std::string command(std::string& inputStr);
-  auto transMnemonic(std::string& inputStr, const std::unordered_map<std::string, int>& mnemToNum);
+  char transMnemonic(std::string& inputStr, const std::unordered_map<std::string, int>& mnemToNum);
   std::string transRegister(std::string& inputStr);
   std::string transImmediate(std::string& inputStr);
 }

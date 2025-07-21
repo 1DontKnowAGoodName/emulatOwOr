@@ -25,25 +25,21 @@
 int main(){ // do the the core logic first
   computer comp;
   
-  for(int i = 0; i < 255; i++){
+  for(int i = 0; i < 256; i++){
     comp.sram(0, i); //48 is zero in ascii
   }
-
-  for(int i = 0; i < 255; i++){
+  for(int i = 0; i < 256; i++){
     comp.sVram(0, i);
   }
-
   for(int i = 0; i < 7; i++){
     comp.sReg(0, i);
   }
-  
+
   bool askClockSpeed = false;
   int clockSpeed = 1; // instructions per second
 
-  std::string codeLine;
-  std::vector<std::string> CodeVector;  // i store the code in a vector, for easier 
-                                        // reference. some would call this 'cringe' and ' 
-                                        // fucking deranged' but did i ever say i wasn't?
+  std::string codeLine; 
+  std::vector<std::string> CodeVector;  // i store the code in a vector, for easier reference. some would call this 'cringe' and 'fucking deranged' but did i ever say i wasn't?
 
   if (askClockSpeed){
     std::cout << "how fast do you want the clockspeed to be, in instructions per second? >>";
@@ -58,7 +54,7 @@ int main(){ // do the the core logic first
     std::cout << "was not able to open code file\n";
     return 1;
   }
-  
+  //maybe add one line to codeVector so line count and comp.PC line (hihi) up
   while (std::getline(code, codeLine)){
     parser::deleteComments(codeLine);
     parser::deleteSpaces(codeLine);
@@ -72,27 +68,24 @@ int main(){ // do the the core logic first
     comp.instructionReg = parser::parse(CodeVector.at(comp.PC), parser::define, parser::label, parser::mnemToNum);
     comp.executeInstruction();
   }
-  for(int i = 0; i < 255; i++){
-    std::cout << static_cast<int>(comp.gram(i));
-    if(i % 32 == 0){
+
+  for(int i = 0; i < 256; i++){
+    std::cout << static_cast<int>(comp.gram(i)) << ' ';
+    if(i % 32 == 0 && i != 0){
       std::cout << '\n';
     }
   }
-
-  std::cout << '\n';
-
-  for(int i = 0; i < 255; i++){
-    std::cout << static_cast<int>(comp.gVram(i));
-    if(i % 32 == 0){
+  std::cout << "\n\n";
+  for(int i = 0; i < 256; i++){
+    std::cout << static_cast<int>(comp.gVram(i))<< ' ';
+    if(i % 32 == 0 && i != 0){
       std::cout << '\n';
     }
   }
-  
-  std::cout << '\n';
-
-  for(int i = 0; i < 7; i++){
-    std::cout << static_cast<int>(comp.gReg(i));
+  std::cout << "\n\n";
+  for(int i = 0; i < 8; i++){
+    std::cout << static_cast<int>(comp.gReg(i))<< ' ';
   }
-
+  std::cout << '\n';
   return 0;
 }

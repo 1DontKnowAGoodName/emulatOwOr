@@ -25,7 +25,7 @@ uint8_t computer::gVram (uint8_t pos){
   return vidRAM.at(pos);
 }
 void computer::sReg (uint8_t val, uint8_t pos){
-  if(pos == 0 || pos < 1 || pos > 7){
+  if(pos <= 0 || pos >= 8){
     return;
   }
   regs.at(pos) = val;

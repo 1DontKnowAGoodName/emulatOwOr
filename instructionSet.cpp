@@ -100,11 +100,11 @@ void ISA::MOV(std::string& par, computer& C){
 }
 void ISA::JIT(std::string& par, computer& C){
   if(C.gReg(ISA::RI(par, 'r', 1)) == C.gReg(ISA::RI(par, 'r', 2))){
-    C.PC = C.gReg(ISA::RI(par, 'r', 0));
+    C.PC = C.gReg(ISA::RI(par, 'r', 0)) - 1;
   }
 }
 void ISA::ECT(std::string& par, computer& C){
-  C.PC = C.gReg(ISA::RI(par, 'i', 0));
+  C.PC = ISA::RI(par, 'i', 0) - 1;
 }
 void ISA::GCT(std::string& par, computer& C){
   C.sReg(C.PC, ISA::RI(par, 'r', 0));
@@ -116,7 +116,7 @@ void ISA::PTV(std::string& par, computer& C){
   C.sVram(C.gReg(ISA::RI(par, 'r', 0)), ISA::RI(par, 'i', 1));
 }
 void ISA::HLT(std::string& par, computer& C){
-  system("pause");
+  getchar();
 }
 
 void ISA::ADD(std::string& par, computer& C){

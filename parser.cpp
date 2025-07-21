@@ -26,7 +26,7 @@ namespace parser{
   std::string parse(std::string& inputStr, std::vector<std::pair<std::string, int>> define, const std::vector<std::pair<std::string, int>> label, const std::unordered_map<std::string, int> &mnemToNum);
 
   std::string command(std::string& inputStr);
-  auto transMnemonic(std::string& inputStr, const std::unordered_map<std::string, int>& mnemToNum);
+  char transMnemonic(std::string& inputStr, const std::unordered_map<std::string, int>& mnemToNum);
   std::string transRegister(std::string& inputStr);
   std::string transImmediate(std::string& inputStr);
 }
@@ -120,8 +120,8 @@ std::string parser::command(std::string& inputStr){
   }
   return "";
 }
-auto parser::transMnemonic(std::string& inputStr, const std::unordered_map<std::string, int>& mnemToNum){
-  return std::to_string(mnemToNum.find(inputStr.substr(0, 3))->second);
+char parser::transMnemonic(std::string& inputStr, const std::unordered_map<std::string, int>& mnemToNum){
+  return mnemToNum.find(inputStr.substr(0, 3))->second + '0';
 }
 std::string parser::transRegister(std::string& inputStr){
   if (inputStr.at(1) == '8' || inputStr.at(1) == '9'){
@@ -145,6 +145,9 @@ std::string parser::transImmediate(std::string& inputStr){
 }
 
 void parser::preparse(std::string inputStr, std::vector<std::pair<std::string, int>>& label, std::vector<std::pair<std::string, int>>& define, unsigned short int l){
+  if(inputStr.empty()){
+    return;
+  }
   if(inputStr.at(0) == '.' && isLabel(inputStr, label)){
     std::cerr << "you declared an already declared label\n";
   }
@@ -161,7 +164,10 @@ void parser::preparse(std::string inputStr, std::vector<std::pair<std::string, i
   return;
 }
 std::string parser::parse(std::string& inputStr, std::vector<std::pair<std::string, int>> define, const std::vector<std::pair<std::string, int>> label, const std::unordered_map<std::string, int> &mnemToNum){
-  std::string outputStr = transMnemonic(inputStr, mnemToNum);
+  if(inputStr.empty()){
+    return "0";
+  }
+  std::string outputStr = {transMnemonic(inputStr, mnemToNum)};
   inputStr.erase(0,3);
 
   while(!inputStr.empty()){
