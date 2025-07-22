@@ -150,7 +150,7 @@ void ISA::MLT(std::string& par, computer& C){
   C.sReg(C.gReg(ISA::RI(par, 'r', 1)) * C.gReg(ISA::RI(par, 'r', 2)), ISA::RI(par, 'r', 0));
 }
 void ISA::ODD(std::string& par, computer& C){
-  C.sReg(C.gReg(ISA::RI(par, 'r', 1)) % 2, ISA::RI(par, 'r', 0));
+  C.sReg((C.gReg(ISA::RI(par, 'r', 1)) % 2 == 0) ? 0 : 1, ISA::RI(par, 'r', 0));
 }
 void ISA::INC(std::string& par, computer& C){
   C.sReg(C.gReg(ISA::RI(par, 'r', 1)) + 1, ISA::RI(par, 'r', 0));

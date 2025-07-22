@@ -43,12 +43,12 @@ namespace parser{
     {"NDY", 0},
     {"RBS", 24},
     {"LBS", 25},
-    {"COM", 26},
+    {"CMP", 26},
     {"NDY", 0},
     {"MLT", 28},
     {"ODD", 29},
     {"INC", 30},
-    {"DEC", 31},
+    {"DCR", 31},
   };
 
   void deleteSpaces(std::string& inputStr);
