@@ -1,5 +1,7 @@
 /* TODO:
   open a GUI from raylib
+
+  make codevector start at 1 instead of zero so coding in VScode will become easier.
   
   with:
     >a window for 16x16 8-bit screen or a larger screeen
@@ -24,16 +26,6 @@
 
 int main(){ // do the the core logic first
   computer comp;
-  
-  for(int i = 0; i < 256; i++){
-    comp.sram(0, i); //48 is zero in ascii
-  }
-  for(int i = 0; i < 256; i++){
-    comp.sVram(0, i);
-  }
-  for(int i = 0; i < 7; i++){
-    comp.sReg(0, i);
-  }
 
   bool askClockSpeed = false;
   int clockSpeed = 1; // instructions per second
@@ -64,28 +56,10 @@ int main(){ // do the the core logic first
   for(int line = 0; line < CodeVector.size(); ++line){
     parser::preparse(CodeVector.at(line)/*pass by copy*/, parser::label, parser::define, line);
   }
+  
   for(comp.PC = 0; comp.PC < CodeVector.size(); comp.PC++){
     comp.instructionReg = parser::parse(CodeVector.at(comp.PC), parser::define, parser::label, parser::mnemToNum);
     comp.executeInstruction();
   }
-
-  for(int i = 0; i < 256; i++){
-    std::cout << static_cast<int>(comp.gram(i)) << ' ';
-    if(i % 32 == 0 && i != 0){
-      std::cout << '\n';
-    }
-  }
-  std::cout << "\n\n";
-  for(int i = 0; i < 256; i++){
-    std::cout << static_cast<int>(comp.gVram(i))<< ' ';
-    if(i % 32 == 0 && i != 0){
-      std::cout << '\n';
-    }
-  }
-  std::cout << "\n\n";
-  for(int i = 0; i < 8; i++){
-    std::cout << static_cast<int>(comp.gReg(i))<< ' ';
-  }
-  std::cout << '\n';
   return 0;
 }

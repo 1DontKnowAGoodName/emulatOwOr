@@ -167,11 +167,26 @@ std::string parser::parse(std::string& inputStr, std::vector<std::pair<std::stri
   if(inputStr.empty()){
     return "0";
   }
+
+  if(inputStr.at(0) == '#'){
+    inputStr.clear();
+    return "0";
+  } else if (inputStr.at(0) == '.'){
+    while(inputStr.at(0) != ':'){
+      inputStr.erase(0,1);
+    }
+    inputStr.erase(0,1); //to delete the : at the end of declaration of label
+    if(inputStr.empty()){
+      return "0";
+    }
+  }
+
   std::string outputStr = {transMnemonic(inputStr, mnemToNum)};
   inputStr.erase(0,3);
 
   while(!inputStr.empty()){
     char temp = inputStr.at(0);
+
     if (temp == 'r'){                                 //registers
       outputStr += transRegister(inputStr);
       inputStr.erase(0,2);
