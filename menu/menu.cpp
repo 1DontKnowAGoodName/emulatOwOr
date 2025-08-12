@@ -5,9 +5,9 @@
 
 // asserting dominance
 #undef windowHeight
-#define windowHeight 320
+#define windowHeight 640
 #undef windowWidth
-#define windowWidth 640
+#define windowWidth 1280
 
 inline std::bitset<8> bitifier(uint8_t inp){
 return inp; 
@@ -18,7 +18,7 @@ int main(){
   std::array<uint8_t, 256> vidRAM;
 
   for (int i = 0; i < 256; i++){
-    vidRAM.at(i) = 170;
+    vidRAM.at(i) = rand() % 255;
   }
 
   InitWindow(windowWidth, windowHeight, "EmulatOwOr");
@@ -35,6 +35,21 @@ int main(){
       }
     }
   }
+
+  BeginDrawing();
+
+  for (int i = 0; i < 32; ++i){
+    for (int j = 0; j < 64; ++j){
+      if(screen.at(i).at(j)){
+        DrawRectangle(j*20, i*20, 20, 20, WHITE);
+      }
+      else{
+        DrawRectangle(j*20, i*20, 20, 20, BLACK);
+      }
+    }
+  }
+
+  EndDrawing();
 
   CloseWindow();
   return 0;
