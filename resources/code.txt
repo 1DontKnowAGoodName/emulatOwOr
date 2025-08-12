@@ -1,0 +1,5 @@
+
+LDI r1 275
+LDI r2 255
+PTV r1 0
+PTV r2 1
