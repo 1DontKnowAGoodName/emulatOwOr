@@ -22,6 +22,9 @@ namespace ISA {
   void STO(std::string& par, computer& C);
   void GET(std::string& par, computer& C);
   void MOV(std::string& par, computer& C);
+  void PLT(std::string& par, computer& C);
+  void JIG(std::string& par, computer& C);
+  void JIS(std::string& par, computer& C);
   void JIT(std::string& par, computer& C);
   void ECT(std::string& par, computer& C);
   void GCT(std::string& par, computer& C);

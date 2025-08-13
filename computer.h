@@ -16,7 +16,7 @@ class computer{
   private:
     std::array <uint8_t, 8> regs;
     std::array <uint8_t, 256> RAM;
-    std::array <uint8_t, 256> vidRAM;
+    std::array <bool, 2048> vidRAM;
   
   public:
     computer();
@@ -28,10 +28,10 @@ class computer{
 
     uint8_t gReg (uint8_t pos);
     uint8_t gram (uint8_t pos);
-    uint8_t gVram (uint8_t pos);
+    bool gVram (short int pos);
     void sReg (uint8_t val, uint8_t pos);
     void sram (uint8_t val, uint8_t pos);
-    void sVram (uint8_t val, uint8_t pos);
+    void sVram (uint8_t val, short int pos);
   };
 
 #endif

@@ -21,7 +21,7 @@ uint8_t computer::gReg(uint8_t pos){
 uint8_t computer::gram (uint8_t pos){
   return RAM.at(pos);
 }
-uint8_t computer::gVram (uint8_t pos){
+bool computer::gVram (short int pos){
   return vidRAM.at(pos);
 }
 void computer::sReg (uint8_t val, uint8_t pos){
@@ -38,10 +38,13 @@ void computer::sram (uint8_t val, uint8_t pos){
   RAM.at(pos) = val;
   return;
 }
-void computer::sVram (uint8_t val, uint8_t pos){
-  if(pos < 0 || pos > 255){
+void computer::sVram (uint8_t val, short int pos){
+  if(pos < 0 || pos > 2047){
     return;
   }
-  vidRAM.at(pos) = val;
+  if (val > 0)
+    vidRAM.at(pos) = 1;
+  else
+    vidRAM.at(pos) = 0;
   return;
 }

@@ -10,6 +10,9 @@ namespace ISA{
   void STO(std::string& par, computer& C);
   void GET(std::string& par, computer& C);
   void MOV(std::string& par, computer& C);
+  void PLT(std::string& par, computer& C);
+  void JIG(std::string& par, computer& C);
+  void JIS(std::string& par, computer& C);
   void JIT(std::string& par, computer& C);
   void ECT(std::string& par, computer& C);
   void GCT(std::string& par, computer& C);
@@ -38,9 +41,9 @@ namespace ISA{
     {4, MOV},
     {5, NOP},
     {6, NOP},
-    {7, NOP},
-    {8, NOP},
-    {9, NOP},
+    {7, PLT},
+    {8, JIG},
+    {9, JIS},
     {10, JIT},
     {11, ECT},
     {12, GCT},
@@ -97,6 +100,22 @@ void ISA::GET(std::string& par, computer& C){
 }
 void ISA::MOV(std::string& par, computer& C){
   C.sReg(C.gReg(ISA::RI(par, 'r', 1)), ISA::RI(par, 'r', 0));
+}
+void ISA::PLT(std::string& par, computer& C){
+  if(C.gReg(ISA::RI(par, 'r', 1)) > 63 || C.gReg(ISA::RI(par, 'r', 2)) > 31){
+    return;
+  }
+  C.sVram(C.gReg(ISA::RI(par, 'r', 0)), (C.gReg(ISA::RI(par, 'r', 2)) * 64 + C.gReg(ISA::RI(par, 'r', 1))));
+}
+void ISA::JIG(std::string& par, computer& C){
+  if(C.gReg(ISA::RI(par, 'r', 1)) > C.gReg(ISA::RI(par, 'r', 2))){
+    C.PC = C.gReg(ISA::RI(par, 'r', 0)) - 1;
+  }
+}
+void ISA::JIS(std::string& par, computer& C){
+  if(C.gReg(ISA::RI(par, 'r', 1)) < C.gReg(ISA::RI(par, 'r', 2))){
+    C.PC = C.gReg(ISA::RI(par, 'r', 0)) - 1;
+  }
 }
 void ISA::JIT(std::string& par, computer& C){
   if(C.gReg(ISA::RI(par, 'r', 1)) == C.gReg(ISA::RI(par, 'r', 2))){

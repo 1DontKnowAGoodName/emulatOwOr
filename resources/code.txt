@@ -1,5 +1,27 @@
+LDI r1 6
+LDI r2 3
 
-LDI r1 275
-LDI r2 255
-PTV r1 0
-PTV r2 1
+LDI r3 0
+LDI r4 0
+LDI r5 1
+
+.loop:
+PLT r1 r4 r5
+
+LDI r7 .end_
+JIS r7 r3 r0
+LDI r6 230
+JIS r7 r3 r6
+  INC r5 r5
+  LDI r6 2
+  MLT r6 r6 r1
+  SUB r3 r3 r6
+.end:
+
+LDI r6 2
+MLT r6 r6 r2
+ADD r3 r3 r6
+
+LDI r7 .loop_
+JIS r7 r4 r1
+HLT
