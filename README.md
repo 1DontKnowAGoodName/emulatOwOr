@@ -23,6 +23,10 @@ the little thing openening up is mapping the Vram in bits, 64x32, this is the on
 
 to refer to a register put `r` and the number of the reg. 0 is zero read, it's always zero. it's from 1-7, 8 is out of range.
 
+use as many spaces as you want, that doesn't affectt the code, just keep the insctruction at one line.
+
+comment with `;`, everything after gets ignored.
+
 
 to define a value, do `#define`, the name of the value and the value. you can't declare something twice. it's read before the code is executed, so you can use that defined before it's actually defined. it only fits in places where immediates would fit, so you can do `LDI r1 [some value]_`. the _ is required and signifies that that it ends there.
 
@@ -50,6 +54,12 @@ there were plans to make things to help debugging, but i'm too lazy, just use a 
 `GET r i` - puts the value at immediate from RAM in the register
 
 `MOV r r` - moves the first register to the second
+
+`PLT r r r` plot pixel at x (second reg), y (third reg). if first reg < 1 then black, if not, white.
+
+`JIG r r r` - if second is bigger than third, jumps to the value of the first
+
+`JIS r r r` - if second is smaller than third,jumps to the value of the first
 
 `JIT r r r` - if second and third are equal, it jumps to the value of the first
 
@@ -85,9 +95,9 @@ there were plans to make things to help debugging, but i'm too lazy, just use a 
 
 `ODD r r` - if the second register is ODD 1 is put in the first reg.
 
-`INC r` - increment register
+`INC r r` - increment second register and put into first
 
-`DCR r` - decrement register.
+`DCR r r` - decrement second register and put into first
 
 
 ## Building:
